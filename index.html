@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ViewTube</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+  <!-- ヘッダー -->
+  <header class="header">
+    <div class="header-left">
+      <button class="icon-btn" id="menu-btn">
+        <span class="material-icons">menu</span>
+      </button>
+      <a href="index.html" class="logo">
+        <span class="material-icons logo-icon">play_circle_filled</span>
+        <span class="logo-text">ViewTube</span>
+      </a>
+    </div>
+    <div class="header-center">
+      <form class="search-form" id="search-form">
+        <input type="text" class="search-input" id="search-input" placeholder="検索">
+        <button type="submit" class="search-btn">
+          <span class="material-icons">search</span>
+        </button>
+      </form>
+      <button class="icon-btn voice-btn">
+        <span class="material-icons">mic</span>
+      </button>
+    </div>
+    <div class="header-right">
+      <button class="icon-btn" id="upload-btn" title="動画を投稿">
+        <span class="material-icons">video_call</span>
+      </button>
+      <button class="icon-btn">
+        <span class="material-icons">apps</span>
+      </button>
+      <button class="icon-btn">
+        <span class="material-icons">notifications</span>
+      </button>
+      <button class="avatar-btn" id="avatar-btn">
+        <img src="https://ui-avatars.com/api/?name=U&background=random&size=32" alt="avatar">
+      </button>
+    </div>
+  </header>
+
+  <!-- メインコンテンツ -->
+  <div class="main-container">
+    <!-- サイドバー（JSで動的に更新） -->
+    <nav class="sidebar" id="sidebar"></nav>
+
+    <!-- コンテンツエリア -->
+    <main class="content" id="content">
+      <!-- ページヘッダー（ホーム以外で表示） -->
+      <div class="page-header" id="page-header" style="display:none;">
+        <span class="material-icons page-header-icon" id="page-header-icon"></span>
+        <h2 id="page-header-title"></h2>
+      </div>
+
+      <!-- カテゴリチップ（ホームのみ） -->
+      <div class="chips-bar" id="chips-bar">
+        <button class="chip active">すべて</button>
+        <button class="chip">ゲーム</button>
+        <button class="chip">音楽</button>
+        <button class="chip">プログラミング</button>
+        <button class="chip">料理</button>
+        <button class="chip">ニュース</button>
+        <button class="chip">スポーツ</button>
+        <button class="chip">映画</button>
+        <button class="chip">アニメ</button>
+        <button class="chip">教育</button>
+        <button class="chip">旅行</button>
+        <button class="chip">ペット</button>
+      </div>
+
+      <!-- 空状態メッセージ -->
+      <div class="empty-state" id="empty-state" style="display:none;">
+        <span class="material-icons empty-state-icon" id="empty-state-icon"></span>
+        <p class="empty-state-text" id="empty-state-text"></p>
+      </div>
+
+      <!-- 動画グリッド -->
+      <div class="video-grid" id="video-grid"></div>
+
+      <!-- チャンネルページ -->
+      <div class="channel-page" id="channel-page" style="display:none;">
+        <div class="channel-banner" id="channel-banner"></div>
+        <div class="channel-page-info">
+          <img class="channel-page-avatar" id="channel-page-avatar" src="" alt="">
+          <div class="channel-page-meta">
+            <h2 id="channel-page-name"></h2>
+            <p id="channel-page-subs"></p>
+          </div>
+          <button class="subscribe-btn" id="channel-page-subscribe-btn">チャンネル登録</button>
+        </div>
+        <div class="channel-page-videos video-grid" id="channel-page-videos"></div>
+      </div>
+    </main>
+  </div>
+
+  <!-- 動画再生ページ（オーバーレイ） -->
+  <div class="watch-page" id="watch-page">
+    <div class="watch-container">
+      <div class="watch-primary">
+        <div class="player-wrapper">
+          <div class="player" id="player">
+            <video id="video-player" poster="">
+              <source src="" type="video/mp4">
+            </video>
+            <div class="player-overlay" id="player-overlay">
+              <button class="play-btn-large" id="play-btn-large">
+                <span class="material-icons">play_arrow</span>
+              </button>
+            </div>
+            <div class="player-controls" id="player-controls">
+              <div class="progress-bar" id="progress-bar">
+                <div class="progress-buffered"></div>
+                <div class="progress-played" id="progress-played"></div>
+                <div class="progress-handle" id="progress-handle"></div>
+              </div>
+              <div class="controls-row">
+                <div class="controls-left">
+                  <button class="ctrl-btn" id="play-pause-btn">
+                    <span class="material-icons">play_arrow</span>
+                  </button>
+                  <button class="ctrl-btn" id="next-btn">
+                    <span class="material-icons">skip_next</span>
+                  </button>
+                  <button class="ctrl-btn" id="volume-btn">
+                    <span class="material-icons">volume_up</span>
+                  </button>
+                  <input type="range" class="volume-slider" id="volume-slider" min="0" max="100" value="100">
+                  <span class="time-display" id="time-display">0:00 / 0:00</span>
+                </div>
+                <div class="controls-right">
+                  <button class="ctrl-btn" id="settings-btn">
+                    <span class="material-icons">settings</span>
+                  </button>
+                  <button class="ctrl-btn" id="theater-btn">
+                    <span class="material-icons">aspect_ratio</span>
+                  </button>
+                  <button class="ctrl-btn" id="fullscreen-btn">
+                    <span class="material-icons">fullscreen</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="watch-info">
+          <h1 class="watch-title" id="watch-title">動画タイトル</h1>
+          <div class="watch-meta">
+            <div class="watch-meta-left">
+              <div class="channel-info">
+                <img class="channel-avatar" id="watch-channel-avatar" src="" alt="">
+                <div class="channel-text">
+                  <span class="channel-name" id="watch-channel-name">チャンネル名</span>
+                  <span class="channel-subs" id="watch-channel-subs">登録者数</span>
+                </div>
+                <button class="subscribe-btn" id="subscribe-btn">チャンネル登録</button>
+              </div>
+            </div>
+            <div class="watch-meta-right">
+              <div class="action-buttons">
+                <button class="action-btn" id="like-btn">
+                  <span class="material-icons">thumb_up</span>
+                  <span id="like-count">0</span>
+                </button>
+                <button class="action-btn" id="dislike-btn">
+                  <span class="material-icons">thumb_down</span>
+                </button>
+                <button class="action-btn" id="share-btn">
+                  <span class="material-icons">share</span>
+                  <span>共有</span>
+                </button>
+                <button class="action-btn" id="save-btn">
+                  <span class="material-icons">playlist_add</span>
+                  <span>保存</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="watch-description" id="watch-description">
+            <div class="description-stats">
+              <span id="watch-views">0回視聴</span>
+              <span id="watch-date">2024/01/01</span>
+            </div>
+            <p id="watch-desc-text">動画の説明文がここに表示されます。</p>
+          </div>
+        </div>
+
+        <!-- コメントセクション -->
+        <div class="comments-section">
+          <div class="comments-header">
+            <h3 id="comments-count">0 件のコメント</h3>
+            <button class="sort-btn">
+              <span class="material-icons">sort</span>
+              並べ替え
+            </button>
+          </div>
+          <div class="comment-form">
+            <img src="https://ui-avatars.com/api/?name=U&background=random&size=40" class="comment-avatar" alt="">
+            <input type="text" class="comment-input" placeholder="コメントを追加..." id="comment-input">
+          </div>
+          <div class="comments-list" id="comments-list">
+            <!-- JSで動的に生成 -->
+          </div>
+        </div>
+      </div>
+
+      <!-- 関連動画サイドバー -->
+      <div class="watch-secondary">
+        <div class="related-videos" id="related-videos">
+          <!-- JSで動的に生成 -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- アップロードページ -->
+  <div class="upload-page" id="upload-page">
+    <div class="upload-container">
+      <div class="upload-header">
+        <h2>動画のアップロード</h2>
+        <button class="icon-btn" id="upload-close-btn">
+          <span class="material-icons">close</span>
+        </button>
+      </div>
+
+      <!-- ステップ1: ファイル選択 -->
+      <div class="upload-step" id="upload-step-1">
+        <div class="upload-dropzone" id="upload-dropzone">
+          <span class="material-icons upload-dropzone-icon">upload</span>
+          <p class="upload-dropzone-text">動画ファイルをドラッグ＆ドロップ</p>
+          <p class="upload-dropzone-sub">または</p>
+          <label class="upload-file-btn">
+            ファイルを選択
+            <input type="file" id="upload-file-input" accept="video/*" hidden>
+          </label>
+          <p class="upload-dropzone-hint">MP4、WebM、MOV に対応</p>
+        </div>
+      </div>
+
+      <!-- ステップ2: 詳細入力 -->
+      <div class="upload-step" id="upload-step-2" style="display:none;">
+        <div class="upload-form-layout">
+          <div class="upload-form-left">
+            <div class="upload-field">
+              <label class="upload-label">タイトル（必須）</label>
+              <input type="text" class="upload-text-input" id="upload-title" placeholder="動画のタイトルを入力" maxlength="100">
+              <span class="upload-char-count"><span id="title-char-count">0</span>/100</span>
+            </div>
+            <div class="upload-field">
+              <label class="upload-label">説明</label>
+              <textarea class="upload-textarea" id="upload-description" placeholder="動画の説明を入力..." rows="6" maxlength="5000"></textarea>
+            </div>
+            <div class="upload-field">
+              <label class="upload-label">カテゴリ</label>
+              <select class="upload-select" id="upload-category">
+                <option value="">カテゴリを選択</option>
+                <option value="ゲーム">ゲーム</option>
+                <option value="音楽">音楽</option>
+                <option value="プログラミング">プログラミング</option>
+                <option value="料理">料理</option>
+                <option value="ニュース">ニュース</option>
+                <option value="スポーツ">スポーツ</option>
+                <option value="映画">映画</option>
+                <option value="アニメ">アニメ</option>
+                <option value="教育">教育</option>
+                <option value="旅行">旅行</option>
+                <option value="ペット">ペット</option>
+              </select>
+            </div>
+            <div class="upload-field">
+              <label class="upload-label">サムネイル</label>
+              <div class="thumbnail-upload-area">
+                <label class="thumbnail-upload-btn" id="thumbnail-upload-label">
+                  <span class="material-icons">add_photo_alternate</span>
+                  <span>サムネイルをアップロード</span>
+                  <input type="file" id="upload-thumbnail" accept="image/*" hidden>
+                </label>
+                <div class="thumbnail-preview-box" id="thumbnail-preview-box" style="display:none;">
+                  <img id="thumbnail-preview-img" src="" alt="サムネイル">
+                  <button class="thumbnail-remove-btn" id="thumbnail-remove-btn">
+                    <span class="material-icons">close</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="upload-field">
+              <label class="upload-label">公開設定</label>
+              <div class="upload-visibility-options">
+                <label class="visibility-option">
+                  <input type="radio" name="visibility" value="public" checked>
+                  <span class="material-icons">public</span>
+                  <div>
+                    <strong>公開</strong>
+                    <p>誰でも視聴できます</p>
+                  </div>
+                </label>
+                <label class="visibility-option">
+                  <input type="radio" name="visibility" value="unlisted">
+                  <span class="material-icons">link</span>
+                  <div>
+                    <strong>限定公開</strong>
+                    <p>リンクを知っている人が視聴できます</p>
+                  </div>
+                </label>
+                <label class="visibility-option">
+                  <input type="radio" name="visibility" value="private">
+                  <span class="material-icons">lock</span>
+                  <div>
+                    <strong>非公開</strong>
+                    <p>自分だけが視聴できます</p>
+                  </div>
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="upload-form-right">
+            <div class="upload-preview-card">
+              <div class="upload-preview-thumb" id="upload-preview-thumb">
+                <span class="material-icons">movie</span>
+              </div>
+              <div class="upload-preview-info">
+                <div class="upload-preview-filename" id="upload-preview-filename">ファイル名</div>
+                <div class="upload-progress-bar">
+                  <div class="upload-progress-fill" id="upload-progress-fill"></div>
+                </div>
+                <div class="upload-preview-status" id="upload-preview-status">アップロード待ち</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="upload-actions">
+          <button class="upload-cancel-btn" id="upload-back-btn">戻る</button>
+          <button class="upload-submit-btn" id="upload-submit-btn" disabled>公開</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
