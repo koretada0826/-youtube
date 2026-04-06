@@ -32,10 +32,7 @@
       </button>
     </div>
     <div class="header-right">
-      <button class="icon-btn mobile-search-toggle" id="mobile-search-toggle">
-        <span class="material-icons">search</span>
-      </button>
-      <button class="icon-btn" id="upload-btn" title="動画を投稿">
+      <button class="icon-btn desktop-only" id="upload-btn" title="動画を投稿">
         <span class="material-icons">video_call</span>
       </button>
       <button class="icon-btn desktop-only">
@@ -44,7 +41,10 @@
       <button class="icon-btn" id="notif-btn">
         <span class="material-icons">notifications</span>
       </button>
-      <button class="avatar-btn" id="avatar-btn">
+      <button class="icon-btn mobile-search-toggle" id="mobile-search-toggle">
+        <span class="material-icons">search</span>
+      </button>
+      <button class="avatar-btn desktop-only" id="avatar-btn">
         <img src="https://ui-avatars.com/api/?name=U&background=random&size=32" alt="avatar">
       </button>
     </div>
@@ -369,15 +369,18 @@
     </button>
     <button class="bottom-nav-item" data-page="explore">
       <span class="material-icons">explore</span>
-      <span>探索</span>
+      <span>ショート</span>
+    </button>
+    <button class="bottom-nav-item bottom-nav-create" id="bottom-nav-create">
+      <span class="material-icons">add_circle_outline</span>
     </button>
     <button class="bottom-nav-item" data-page="subscriptions">
       <span class="material-icons">subscriptions</span>
-      <span>登録</span>
+      <span>登録チャンネル</span>
     </button>
     <button class="bottom-nav-item" data-page="library">
-      <span class="material-icons">video_library</span>
-      <span>ライブラリ</span>
+      <span class="material-icons">account_circle</span>
+      <span>マイページ</span>
     </button>
   </nav>
 

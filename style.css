@@ -1328,31 +1328,47 @@ button {
   bottom: 0;
   left: 0;
   right: 0;
-  height: 56px;
+  height: 52px;
   background: #0f0f0f;
   border-top: 1px solid #272727;
   z-index: 900;
   justify-content: space-around;
   align-items: center;
+  padding-bottom: env(safe-area-inset-bottom, 0);
 }
 
 .bottom-nav-item {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2px;
+  gap: 1px;
   font-size: 10px;
   color: #aaa;
-  padding: 6px 0;
-  min-width: 60px;
+  padding: 4px 0;
+  min-width: 48px;
   transition: color 0.2s;
 }
 
 .bottom-nav-item .material-icons {
-  font-size: 22px;
+  font-size: 24px;
 }
 
 .bottom-nav-item.active {
+  color: #fff;
+}
+
+.bottom-nav-item.active .material-icons {
+  font-weight: 700;
+}
+
+/* 中央の＋ボタン */
+.bottom-nav-create {
+  padding: 0;
+  min-width: auto;
+}
+
+.bottom-nav-create .material-icons {
+  font-size: 36px;
   color: #fff;
 }
 
@@ -1427,16 +1443,23 @@ button {
 
 /* スマホ */
 @media (max-width: 640px) {
-  /* === ヘッダー === */
+  /* === ヘッダー（YouTube App風） === */
   .header {
-    padding: 0 8px;
+    padding: 0 12px;
     height: 48px;
   }
   .header-left {
     gap: 4px;
   }
+  /* モバイルではハンバーガーメニュー非表示 */
+  #menu-btn {
+    display: none;
+  }
   .header-center {
     display: none;
+  }
+  .header-right {
+    gap: 6px;
   }
   .mobile-search-toggle {
     display: inline-flex;
@@ -1445,10 +1468,11 @@ button {
     display: none;
   }
   .logo-icon {
-    font-size: 26px;
+    font-size: 28px;
   }
   .logo-text {
-    font-size: 17px;
+    font-size: 18px;
+    font-weight: 700;
   }
 
   /* === メインコンテナ === */
@@ -1456,71 +1480,63 @@ button {
     margin-top: 48px;
   }
 
-  /* === サイドバー（ドロワー） === */
+  /* === サイドバー非表示（ボトムナビで代替） === */
   .sidebar {
-    top: 0;
-    transform: translateX(-100%);
-    z-index: 200;
-    width: 260px;
-    padding-top: 16px;
-  }
-  .sidebar.open {
-    transform: translateX(0);
+    display: none !important;
   }
 
   /* === コンテンツ === */
   .content {
     margin-left: 0;
-    padding: 4px 0 68px;
+    padding: 0 0 64px;
   }
 
-  /* === チップ === */
+  /* === チップ（モバイルでは非表示） === */
   .chips-bar {
-    top: 48px;
-    padding: 6px 12px 10px;
-    gap: 8px;
-  }
-  .chip {
-    padding: 6px 12px;
-    font-size: 13px;
-    border-radius: 6px;
+    display: none;
   }
 
-  /* === 動画グリッド === */
+  /* === 動画グリッド（YouTube App風） === */
   .video-grid {
     grid-template-columns: 1fr;
     gap: 0;
   }
   .video-card {
-    border-bottom: 1px solid #222;
+    padding-bottom: 12px;
   }
   .video-card:hover {
     transform: none;
   }
   .thumbnail-wrapper {
     border-radius: 0;
+    margin: 0;
   }
   .video-info {
-    padding: 10px 12px;
-    gap: 10px;
+    padding: 12px 12px 0;
+    gap: 12px;
   }
   .video-info .channel-avatar {
     width: 36px;
     height: 36px;
+    margin-top: 2px;
+  }
+  .video-details {
+    min-width: 0;
   }
   .video-title {
     font-size: 14px;
-    line-height: 1.3;
+    font-weight: 500;
+    line-height: 1.4;
     -webkit-line-clamp: 2;
+    margin-bottom: 4px;
   }
-  .video-channel {
-    font-size: 12px;
-  }
+  .video-channel,
   .video-stats {
-    font-size: 11px;
+    font-size: 12px;
+    color: #aaa;
   }
 
-  /* === ボトムナビ === */
+  /* === ボトムナビ表示 === */
   .bottom-nav {
     display: flex;
   }
@@ -1541,12 +1557,8 @@ button {
   .player-wrapper {
     margin-bottom: 0;
   }
-  /* プレイヤーコントロール */
   .player-controls {
     padding: 8px 8px 4px;
-  }
-  .controls-row {
-    gap: 0;
   }
   .ctrl-btn {
     width: 32px;
@@ -1563,58 +1575,55 @@ button {
     margin-left: 4px;
   }
   .play-btn-large .material-icons {
-    font-size: 48px;
+    font-size: 52px;
     padding: 12px;
   }
 
   /* 動画情報 */
   .watch-info {
-    padding: 12px;
+    padding: 12px 14px;
   }
   .watch-title {
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 600;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
     line-height: 1.4;
   }
   .watch-meta {
     flex-direction: column;
     align-items: stretch;
-    gap: 12px;
+    gap: 14px;
   }
-  .watch-meta-left {
-    width: 100%;
-  }
+  .watch-meta-left,
   .watch-meta-right {
     width: 100%;
   }
   .channel-info {
-    flex-wrap: wrap;
     gap: 10px;
   }
   .channel-info .channel-avatar {
-    width: 36px;
-    height: 36px;
+    width: 40px;
+    height: 40px;
   }
   .channel-name {
-    font-size: 13px;
+    font-size: 14px;
   }
   .channel-subs {
-    font-size: 11px;
+    font-size: 12px;
   }
   .subscribe-btn {
-    padding: 8px 14px;
+    padding: 8px 16px;
     font-size: 13px;
     margin-left: auto;
   }
 
-  /* アクションボタン */
+  /* アクションボタン（横スクロール） */
   .action-buttons {
     display: flex;
     width: 100%;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
-    gap: 6px;
+    gap: 8px;
     padding-bottom: 4px;
     scrollbar-width: none;
   }
@@ -1622,11 +1631,11 @@ button {
     display: none;
   }
   .action-btn {
-    padding: 8px 12px;
+    padding: 8px 14px;
     font-size: 12px;
     white-space: nowrap;
     flex-shrink: 0;
-    border-radius: 18px;
+    border-radius: 20px;
   }
   .action-btn .material-icons {
     font-size: 18px;
@@ -1634,26 +1643,17 @@ button {
 
   /* 説明欄 */
   .watch-description {
-    margin: 12px;
-    padding: 10px;
-    border-radius: 8px;
-  }
-  .description-stats {
-    font-size: 13px;
-  }
-  .watch-description p {
-    font-size: 13px;
+    margin: 12px 14px;
+    padding: 12px;
+    border-radius: 10px;
   }
 
   /* コメント */
   .comments-section {
-    padding: 0 12px 24px;
+    padding: 0 14px 24px;
   }
   .comments-header {
     margin-bottom: 16px;
-  }
-  .comments-header h3 {
-    font-size: 14px;
   }
   .comment-form {
     gap: 10px;
@@ -1663,9 +1663,6 @@ button {
     width: 32px;
     height: 32px;
   }
-  .comment-input {
-    font-size: 13px;
-  }
   .comment-item {
     gap: 10px;
     margin-bottom: 16px;
@@ -1674,21 +1671,14 @@ button {
     width: 32px;
     height: 32px;
   }
-  .comment-author {
-    font-size: 12px;
-  }
   .comment-text {
     font-size: 13px;
-    margin-bottom: 6px;
   }
 
   /* === ページヘッダー === */
   .page-header {
-    margin: 0 12px 16px;
+    margin: 12px 14px 16px;
     padding-bottom: 12px;
-  }
-  .page-header-icon {
-    font-size: 24px;
   }
   .page-header h2 {
     font-size: 17px;
@@ -1700,7 +1690,7 @@ button {
     border-radius: 0;
   }
   .channel-page-info {
-    padding: 0 12px 16px;
+    padding: 0 14px 16px;
     flex-wrap: wrap;
     gap: 10px;
   }
@@ -1710,12 +1700,6 @@ button {
   }
   .channel-page-meta h2 {
     font-size: 17px;
-  }
-  .channel-page-meta p {
-    font-size: 12px;
-  }
-  .channel-page-videos {
-    padding: 0;
   }
 
   /* === 空状態 === */
@@ -1729,7 +1713,7 @@ button {
     font-size: 14px;
   }
 
-  /* === アップロードモーダル === */
+  /* === アップロードモーダル（フルスクリーン） === */
   .upload-page {
     align-items: stretch;
   }
@@ -1760,13 +1744,6 @@ button {
   .upload-dropzone-icon {
     font-size: 48px;
   }
-  .upload-dropzone-text {
-    font-size: 14px;
-  }
-  .upload-file-btn {
-    padding: 10px 20px;
-    font-size: 13px;
-  }
   .upload-form-layout {
     flex-direction: column;
     gap: 16px;
@@ -1781,37 +1758,14 @@ button {
     font-size: 14px;
     padding: 10px;
   }
-  .upload-label {
-    font-size: 13px;
-  }
-  .visibility-option {
-    padding: 10px;
-    gap: 10px;
-  }
-  .visibility-option .material-icons {
-    font-size: 20px;
-  }
-  .visibility-option strong {
-    font-size: 13px;
-  }
-  .visibility-option p {
-    font-size: 11px;
-  }
   .upload-actions {
-    padding: 16px 0 0;
-    margin-top: 16px;
     position: sticky;
     bottom: 0;
     background: #282828;
-    padding-bottom: 16px;
-  }
-  .upload-cancel-btn,
-  .upload-submit-btn {
-    padding: 10px 20px;
-    font-size: 13px;
+    padding: 16px 0;
+    margin-top: 16px;
   }
 
-  /* 関連動画（スマホでは非表示済み @1200px） */
   .watch-secondary {
     display: none;
   }
@@ -1820,10 +1774,10 @@ button {
 /* 超小型スマホ */
 @media (max-width: 360px) {
   .header {
-    padding: 0 4px;
+    padding: 0 8px;
   }
   .logo-text {
-    font-size: 15px;
+    font-size: 16px;
   }
   .logo-icon {
     font-size: 24px;
@@ -1832,21 +1786,14 @@ button {
     width: 36px;
     height: 36px;
   }
-  .bottom-nav {
-    height: 50px;
-  }
   .bottom-nav-item {
     font-size: 9px;
-    min-width: 48px;
+    min-width: 40px;
   }
   .bottom-nav-item .material-icons {
-    font-size: 20px;
+    font-size: 22px;
   }
-  .watch-title {
-    font-size: 14px;
-  }
-  .action-btn {
-    padding: 6px 10px;
-    font-size: 11px;
+  .bottom-nav-create .material-icons {
+    font-size: 32px;
   }
 }

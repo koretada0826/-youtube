@@ -943,10 +943,18 @@ mobileSearchForm.addEventListener('submit', (e) => {
 // モバイルボトムナビ
 // ======================================================
 const bottomNav = document.getElementById('bottom-nav');
+
+// ＋ボタン（投稿）
+document.getElementById('bottom-nav-create').addEventListener('click', () => {
+  uploadPage.classList.add('active');
+  document.body.style.overflow = 'hidden';
+});
+
 bottomNav.addEventListener('click', (e) => {
   const item = e.target.closest('.bottom-nav-item');
-  if (!item) return;
+  if (!item || item.id === 'bottom-nav-create') return;
   const page = item.dataset.page;
+  if (!page) return;
   navigateTo(page);
   updateBottomNav(page);
 });
