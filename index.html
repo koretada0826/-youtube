@@ -32,13 +32,16 @@
       </button>
     </div>
     <div class="header-right">
+      <button class="icon-btn mobile-search-toggle" id="mobile-search-toggle">
+        <span class="material-icons">search</span>
+      </button>
       <button class="icon-btn" id="upload-btn" title="動画を投稿">
         <span class="material-icons">video_call</span>
       </button>
-      <button class="icon-btn">
+      <button class="icon-btn desktop-only">
         <span class="material-icons">apps</span>
       </button>
-      <button class="icon-btn">
+      <button class="icon-btn" id="notif-btn">
         <span class="material-icons">notifications</span>
       </button>
       <button class="avatar-btn" id="avatar-btn">
@@ -46,6 +49,19 @@
       </button>
     </div>
   </header>
+
+  <!-- モバイル検索バー -->
+  <div class="mobile-search-bar" id="mobile-search-bar">
+    <button class="icon-btn" id="mobile-search-back">
+      <span class="material-icons">arrow_back</span>
+    </button>
+    <form class="search-form" id="mobile-search-form">
+      <input type="text" class="search-input" id="mobile-search-input" placeholder="検索">
+      <button type="submit" class="search-btn">
+        <span class="material-icons">search</span>
+      </button>
+    </form>
+  </div>
 
   <!-- メインコンテンツ -->
   <div class="main-container">
@@ -344,6 +360,29 @@
       </div>
     </div>
   </div>
+
+  <!-- モバイルボトムナビ -->
+  <nav class="bottom-nav" id="bottom-nav">
+    <button class="bottom-nav-item active" data-page="home">
+      <span class="material-icons">home</span>
+      <span>ホーム</span>
+    </button>
+    <button class="bottom-nav-item" data-page="explore">
+      <span class="material-icons">explore</span>
+      <span>探索</span>
+    </button>
+    <button class="bottom-nav-item" data-page="subscriptions">
+      <span class="material-icons">subscriptions</span>
+      <span>登録</span>
+    </button>
+    <button class="bottom-nav-item" data-page="library">
+      <span class="material-icons">video_library</span>
+      <span>ライブラリ</span>
+    </button>
+  </nav>
+
+  <!-- サイドバーオーバーレイ -->
+  <div class="sidebar-overlay" id="sidebar-overlay"></div>
 
   <script src="app.js"></script>
 </body>

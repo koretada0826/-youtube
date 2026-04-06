@@ -1290,16 +1290,103 @@ button {
   cursor: not-allowed;
 }
 
-/* レスポンシブ */
+/* モバイル検索バー */
+.mobile-search-bar {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 56px;
+  background: #0f0f0f;
+  z-index: 1100;
+  align-items: center;
+  padding: 0 8px;
+  gap: 8px;
+}
+
+.mobile-search-bar.active {
+  display: flex;
+}
+
+.mobile-search-bar .search-form {
+  flex: 1;
+}
+
+.mobile-search-toggle {
+  display: none;
+}
+
+/* モバイルボトムナビ */
+.bottom-nav {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 56px;
+  background: #0f0f0f;
+  border-top: 1px solid #272727;
+  z-index: 900;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.bottom-nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  font-size: 10px;
+  color: #aaa;
+  padding: 6px 0;
+  min-width: 60px;
+  transition: color 0.2s;
+}
+
+.bottom-nav-item .material-icons {
+  font-size: 22px;
+}
+
+.bottom-nav-item.active {
+  color: #fff;
+}
+
+/* サイドバーオーバーレイ */
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 99;
+}
+
+.sidebar-overlay.active {
+  display: block;
+}
+
+/* デスクトップ専用 */
+.desktop-only {
+  display: inline-flex;
+}
+
+/* ===== レスポンシブ ===== */
+
+/* タブレット + デスクトップ小 */
 @media (max-width: 1200px) {
   .watch-secondary {
     display: none;
   }
 }
 
+/* タブレット */
 @media (max-width: 1024px) {
   .sidebar {
     transform: translateX(-100%);
+    z-index: 200;
   }
   .sidebar.open {
     transform: translateX(0);
@@ -1309,18 +1396,254 @@ button {
   }
 }
 
-@media (max-width: 700px) {
-  .header-center {
-    flex: 1;
+/* スマホ */
+@media (max-width: 640px) {
+  /* ヘッダー */
+  .header {
+    padding: 0 8px;
   }
+  .header-left {
+    min-width: auto;
+    gap: 8px;
+  }
+  .header-center {
+    display: none;
+  }
+  .header-right {
+    min-width: auto;
+    gap: 4px;
+  }
+  .mobile-search-toggle {
+    display: inline-flex;
+  }
+  .desktop-only {
+    display: none;
+  }
+  .voice-btn {
+    display: none;
+  }
+  .logo-text {
+    font-size: 18px;
+  }
+
+  /* サイドバーをドロワーに */
+  .sidebar {
+    transform: translateX(-100%);
+    z-index: 200;
+    width: 260px;
+  }
+  .sidebar.open {
+    transform: translateX(0);
+  }
+
+  /* メインコンテンツ */
+  .content {
+    margin-left: 0;
+    padding: 8px 8px 72px;
+  }
+
+  /* チップ */
+  .chips-bar {
+    top: 56px;
+    padding: 8px 0 12px;
+    gap: 8px;
+  }
+  .chip {
+    padding: 6px 10px;
+    font-size: 13px;
+  }
+
+  /* 動画グリッド */
   .video-grid {
     grid-template-columns: 1fr;
+    gap: 12px;
   }
+
+  .thumbnail-wrapper {
+    border-radius: 0;
+  }
+
+  .video-card {
+    margin: 0 -8px;
+  }
+
+  .video-info {
+    padding: 8px 8px;
+  }
+
+  .video-title {
+    font-size: 14px;
+  }
+
+  /* ボトムナビ表示 */
+  .bottom-nav {
+    display: flex;
+  }
+
+  /* 視聴ページ */
+  .watch-page {
+    top: 0;
+  }
+
   .watch-container {
-    padding: 8px;
+    padding: 0;
     flex-direction: column;
   }
+
+  .player {
+    border-radius: 0;
+  }
+
+  .player-wrapper {
+    margin-bottom: 8px;
+  }
+
+  .watch-info {
+    padding: 0 12px;
+  }
+
+  .watch-title {
+    font-size: 16px;
+    margin-bottom: 8px;
+  }
+
+  .watch-meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .watch-meta-right {
+    width: 100%;
+  }
+
   .action-buttons {
+    display: flex;
+    width: 100%;
+    overflow-x: auto;
+    gap: 8px;
+    padding-bottom: 4px;
+  }
+
+  .action-buttons::-webkit-scrollbar {
+    display: none;
+  }
+
+  .action-btn {
+    padding: 8px 12px;
+    font-size: 12px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .subscribe-btn {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+
+  .channel-info .channel-avatar {
+    width: 36px;
+    height: 36px;
+  }
+
+  .channel-name {
+    font-size: 14px;
+  }
+
+  .watch-description {
+    margin: 0 0 16px;
+    padding: 10px;
+  }
+
+  .comments-section {
+    padding: 0 12px 80px;
+  }
+
+  .comment-form {
+    gap: 12px;
+  }
+
+  /* ページヘッダー */
+  .page-header {
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+  }
+  .page-header h2 {
+    font-size: 18px;
+  }
+
+  /* チャンネルページ */
+  .channel-banner {
+    height: 100px;
+    border-radius: 0;
+    margin: 0 -8px 12px;
+  }
+
+  .channel-page-info {
     flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .channel-page-avatar {
+    width: 56px;
+    height: 56px;
+  }
+
+  .channel-page-meta h2 {
+    font-size: 18px;
+  }
+
+  /* 空状態 */
+  .empty-state {
+    padding: 60px 20px;
+  }
+  .empty-state-icon {
+    font-size: 60px;
+  }
+  .empty-state-text {
+    font-size: 14px;
+  }
+
+  /* アップロードモーダル */
+  .upload-container {
+    width: 100%;
+    max-width: 100vw;
+    max-height: 100vh;
+    height: 100vh;
+    border-radius: 0;
+  }
+
+  .upload-form-layout {
+    flex-direction: column;
+  }
+
+  .upload-form-right {
+    width: 100%;
+  }
+
+  .upload-dropzone {
+    padding: 40px 20px;
+  }
+
+  .upload-dropzone-icon {
+    font-size: 48px;
+  }
+
+  .visibility-option {
+    padding: 10px;
+  }
+}
+
+/* 超小型スマホ */
+@media (max-width: 360px) {
+  .logo-text {
+    font-size: 16px;
+  }
+  .bottom-nav-item {
+    font-size: 9px;
+    min-width: 50px;
+  }
+  .bottom-nav-item .material-icons {
+    font-size: 20px;
   }
 }

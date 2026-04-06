@@ -717,7 +717,8 @@ function showToast(message) {
   let t = document.getElementById('toast');
   if (!t) {
     t = document.createElement('div'); t.id = 'toast';
-    t.style.cssText = 'position:fixed;bottom:40px;left:50%;transform:translateX(-50%);background:#fff;color:#0f0f0f;padding:12px 24px;border-radius:8px;font-size:14px;z-index:9999;opacity:0;transition:opacity 0.3s;pointer-events:none;';
+    const btm = window.innerWidth <= 640 ? '100px' : '40px';
+    t.style.cssText = `position:fixed;bottom:${btm};left:50%;transform:translateX(-50%);background:#fff;color:#0f0f0f;padding:12px 24px;border-radius:8px;font-size:14px;z-index:9999;opacity:0;transition:opacity 0.3s;pointer-events:none;max-width:90vw;text-align:center;`;
     document.body.appendChild(t);
   }
   t.textContent = message; t.style.opacity = '1';
@@ -735,7 +736,16 @@ document.querySelector('.logo').addEventListener('click', (e) => {
   navigateTo('home');
 });
 
-menuBtn.addEventListener('click', () => sidebarEl.classList.toggle('open'));
+// サイドバー開閉（モバイルはオーバーレイ付き）
+const sidebarOverlay = document.getElementById('sidebar-overlay');
+menuBtn.addEventListener('click', () => {
+  sidebarEl.classList.toggle('open');
+  sidebarOverlay.classList.toggle('active', sidebarEl.classList.contains('open'));
+});
+sidebarOverlay.addEventListener('click', () => {
+  sidebarEl.classList.remove('open');
+  sidebarOverlay.classList.remove('active');
+});
 
 // チップフィルター
 chipsBar.addEventListener('click', (e) => {
@@ -898,9 +908,129 @@ uploadPage.addEventListener('click', (e) => { if (e.target === uploadPage) close
 // ======================================================
 // 通知ボタン
 // ======================================================
-document.querySelector('.header-right .icon-btn:nth-child(3)').addEventListener('click', () => {
+document.getElementById('notif-btn').addEventListener('click', () => {
   showToast('新しい通知はありません');
 });
+
+// ======================================================
+// モバイル検索バー
+// ======================================================
+const mobileSearchBar = document.getElementById('mobile-search-bar');
+const mobileSearchInput = document.getElementById('mobile-search-input');
+const mobileSearchForm = document.getElementById('mobile-search-form');
+const mobileSearchToggle = document.getElementById('mobile-search-toggle');
+const mobileSearchBack = document.getElementById('mobile-search-back');
+
+mobileSearchToggle.addEventListener('click', () => {
+  mobileSearchBar.classList.add('active');
+  mobileSearchInput.focus();
+});
+
+mobileSearchBack.addEventListener('click', () => {
+  mobileSearchBar.classList.remove('active');
+  mobileSearchInput.value = '';
+});
+
+mobileSearchForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  // モバイル検索をメイン検索に委譲
+  searchInput.value = mobileSearchInput.value;
+  searchForm.dispatchEvent(new Event('submit'));
+  mobileSearchBar.classList.remove('active');
+});
+
+// ======================================================
+// モバイルボトムナビ
+// ======================================================
+const bottomNav = document.getElementById('bottom-nav');
+bottomNav.addEventListener('click', (e) => {
+  const item = e.target.closest('.bottom-nav-item');
+  if (!item) return;
+  const page = item.dataset.page;
+  navigateTo(page);
+  updateBottomNav(page);
+});
+
+function updateBottomNav(page) {
+  document.querySelectorAll('.bottom-nav-item').forEach(item => {
+    item.classList.toggle('active', item.dataset.page === page);
+  });
+}
+
+// navigateTo にボトムナビ同期を追加
+const _origNavigateTo = navigateTo;
+// ページ遷移時にボトムナビも更新（navigateTo内で呼ぶ）
+
+// 動画ページ開く時にボトムナビを隠す
+const _origOpenVideo = openVideo;
+
+// watchPage表示時にボトムナビ非表示
+const watchObserver = new MutationObserver(() => {
+  if (watchPage.classList.contains('active')) {
+    bottomNav.style.display = 'none';
+  } else {
+    bottomNav.style.display = '';
+  }
+});
+watchObserver.observe(watchPage, { attributes: true, attributeFilter: ['class'] });
+
+// navigateTo のフックでボトムナビを同期
+const origRenderSidebar = renderSidebar;
+// renderSidebarが呼ばれる度にボトムナビも更新
+const _patchedNavigateTo = (function() {
+  const pages = ['home', 'explore', 'subscriptions', 'library'];
+  return function() {
+    if (pages.includes(state.currentPage)) {
+      updateBottomNav(state.currentPage);
+    }
+  };
+})();
+
+// ページ遷移後にボトムナビ同期
+const contentEl = document.getElementById('content');
+const contentObserver = new MutationObserver(() => {
+  const pages = ['home', 'explore', 'subscriptions', 'library', 'history', 'watch-later', 'liked'];
+  if (pages.includes(state.currentPage)) {
+    updateBottomNav(state.currentPage);
+  }
+});
+contentObserver.observe(contentEl, { childList: true, subtree: true });
+
+// サイドバーのナビゲーション時にもサイドバーを閉じる（モバイル）
+const origSidebarRender = renderSidebar;
+const patchSidebarNav = () => {
+  sidebarEl.querySelectorAll('[data-page]').forEach(el => {
+    el.addEventListener('click', () => {
+      sidebarEl.classList.remove('open');
+      sidebarOverlay.classList.remove('active');
+    });
+  });
+  sidebarEl.querySelectorAll('[data-channel-id]').forEach(el => {
+    el.addEventListener('click', () => {
+      sidebarEl.classList.remove('open');
+      sidebarOverlay.classList.remove('active');
+    });
+  });
+};
+
+// renderSidebarを拡張してモバイル対応を含める
+const _baseRenderSidebar = renderSidebar;
+// サイドバー描画後にモバイル用のイベントをパッチ
+const sidebarMutObserver = new MutationObserver(() => {
+  patchSidebarNav();
+});
+sidebarMutObserver.observe(sidebarEl, { childList: true });
+
+// トーストのモバイル位置調整
+function updateToastPosition() {
+  const t = document.getElementById('toast');
+  if (t && window.innerWidth <= 640) {
+    t.style.bottom = '100px';
+  } else if (t) {
+    t.style.bottom = '40px';
+  }
+}
+window.addEventListener('resize', updateToastPosition);
 
 // ======================================================
 // 初期描画
