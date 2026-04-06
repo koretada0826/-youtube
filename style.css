@@ -603,6 +603,10 @@ button {
 }
 
 /* 動画情報 */
+.watch-info {
+  padding: 0 24px;
+}
+
 .watch-title {
   font-size: 20px;
   font-weight: 600;
@@ -1375,10 +1379,13 @@ button {
 
 /* ===== レスポンシブ ===== */
 
-/* タブレット + デスクトップ小 */
+/* デスクトップ小〜タブレット横 */
 @media (max-width: 1200px) {
   .watch-secondary {
     display: none;
+  }
+  .video-grid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   }
 }
 
@@ -1394,256 +1401,452 @@ button {
   .content {
     margin-left: 0;
   }
+  .video-grid {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  }
 }
 
-/* スマホ */
-@media (max-width: 640px) {
-  /* ヘッダー */
-  .header {
-    padding: 0 8px;
-  }
+/* スマホ横 〜 タブレット小 */
+@media (max-width: 768px) {
   .header-left {
     min-width: auto;
     gap: 8px;
-  }
-  .header-center {
-    display: none;
   }
   .header-right {
     min-width: auto;
     gap: 4px;
   }
-  .mobile-search-toggle {
-    display: inline-flex;
-  }
   .desktop-only {
     display: none;
+  }
+  .video-grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+  }
+}
+
+/* スマホ */
+@media (max-width: 640px) {
+  /* === ヘッダー === */
+  .header {
+    padding: 0 8px;
+    height: 48px;
+  }
+  .header-left {
+    gap: 4px;
+  }
+  .header-center {
+    display: none;
+  }
+  .mobile-search-toggle {
+    display: inline-flex;
   }
   .voice-btn {
     display: none;
   }
+  .logo-icon {
+    font-size: 26px;
+  }
   .logo-text {
-    font-size: 18px;
+    font-size: 17px;
   }
 
-  /* サイドバーをドロワーに */
+  /* === メインコンテナ === */
+  .main-container {
+    margin-top: 48px;
+  }
+
+  /* === サイドバー（ドロワー） === */
   .sidebar {
+    top: 0;
     transform: translateX(-100%);
     z-index: 200;
     width: 260px;
+    padding-top: 16px;
   }
   .sidebar.open {
     transform: translateX(0);
   }
 
-  /* メインコンテンツ */
+  /* === コンテンツ === */
   .content {
     margin-left: 0;
-    padding: 8px 8px 72px;
+    padding: 4px 0 68px;
   }
 
-  /* チップ */
+  /* === チップ === */
   .chips-bar {
-    top: 56px;
-    padding: 8px 0 12px;
+    top: 48px;
+    padding: 6px 12px 10px;
     gap: 8px;
   }
   .chip {
-    padding: 6px 10px;
+    padding: 6px 12px;
     font-size: 13px;
+    border-radius: 6px;
   }
 
-  /* 動画グリッド */
+  /* === 動画グリッド === */
   .video-grid {
     grid-template-columns: 1fr;
-    gap: 12px;
+    gap: 0;
   }
-
+  .video-card {
+    border-bottom: 1px solid #222;
+  }
+  .video-card:hover {
+    transform: none;
+  }
   .thumbnail-wrapper {
     border-radius: 0;
   }
-
-  .video-card {
-    margin: 0 -8px;
-  }
-
   .video-info {
-    padding: 8px 8px;
+    padding: 10px 12px;
+    gap: 10px;
   }
-
+  .video-info .channel-avatar {
+    width: 36px;
+    height: 36px;
+  }
   .video-title {
     font-size: 14px;
+    line-height: 1.3;
+    -webkit-line-clamp: 2;
+  }
+  .video-channel {
+    font-size: 12px;
+  }
+  .video-stats {
+    font-size: 11px;
   }
 
-  /* ボトムナビ表示 */
+  /* === ボトムナビ === */
   .bottom-nav {
     display: flex;
   }
 
-  /* 視聴ページ */
+  /* === 視聴ページ === */
   .watch-page {
     top: 0;
+    z-index: 500;
   }
-
   .watch-container {
     padding: 0;
     flex-direction: column;
+    gap: 0;
   }
-
   .player {
     border-radius: 0;
   }
-
   .player-wrapper {
-    margin-bottom: 8px;
+    margin-bottom: 0;
+  }
+  /* プレイヤーコントロール */
+  .player-controls {
+    padding: 8px 8px 4px;
+  }
+  .controls-row {
+    gap: 0;
+  }
+  .ctrl-btn {
+    width: 32px;
+    height: 32px;
+  }
+  .ctrl-btn .material-icons {
+    font-size: 20px;
+  }
+  .volume-slider {
+    width: 50px;
+  }
+  .time-display {
+    font-size: 11px;
+    margin-left: 4px;
+  }
+  .play-btn-large .material-icons {
+    font-size: 48px;
+    padding: 12px;
   }
 
+  /* 動画情報 */
   .watch-info {
-    padding: 0 12px;
+    padding: 12px;
   }
-
   .watch-title {
-    font-size: 16px;
-    margin-bottom: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    line-height: 1.4;
   }
-
   .watch-meta {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: stretch;
     gap: 12px;
   }
-
+  .watch-meta-left {
+    width: 100%;
+  }
   .watch-meta-right {
     width: 100%;
   }
+  .channel-info {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .channel-info .channel-avatar {
+    width: 36px;
+    height: 36px;
+  }
+  .channel-name {
+    font-size: 13px;
+  }
+  .channel-subs {
+    font-size: 11px;
+  }
+  .subscribe-btn {
+    padding: 8px 14px;
+    font-size: 13px;
+    margin-left: auto;
+  }
 
+  /* アクションボタン */
   .action-buttons {
     display: flex;
     width: 100%;
     overflow-x: auto;
-    gap: 8px;
+    -webkit-overflow-scrolling: touch;
+    gap: 6px;
     padding-bottom: 4px;
+    scrollbar-width: none;
   }
-
   .action-buttons::-webkit-scrollbar {
     display: none;
   }
-
   .action-btn {
     padding: 8px 12px;
     font-size: 12px;
     white-space: nowrap;
     flex-shrink: 0;
+    border-radius: 18px;
   }
-
-  .subscribe-btn {
-    padding: 8px 12px;
-    font-size: 13px;
-  }
-
-  .channel-info .channel-avatar {
-    width: 36px;
-    height: 36px;
-  }
-
-  .channel-name {
-    font-size: 14px;
-  }
-
-  .watch-description {
-    margin: 0 0 16px;
-    padding: 10px;
-  }
-
-  .comments-section {
-    padding: 0 12px 80px;
-  }
-
-  .comment-form {
-    gap: 12px;
-  }
-
-  /* ページヘッダー */
-  .page-header {
-    margin-bottom: 16px;
-    padding-bottom: 12px;
-  }
-  .page-header h2 {
+  .action-btn .material-icons {
     font-size: 18px;
   }
 
-  /* チャンネルページ */
+  /* 説明欄 */
+  .watch-description {
+    margin: 12px;
+    padding: 10px;
+    border-radius: 8px;
+  }
+  .description-stats {
+    font-size: 13px;
+  }
+  .watch-description p {
+    font-size: 13px;
+  }
+
+  /* コメント */
+  .comments-section {
+    padding: 0 12px 24px;
+  }
+  .comments-header {
+    margin-bottom: 16px;
+  }
+  .comments-header h3 {
+    font-size: 14px;
+  }
+  .comment-form {
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .comment-avatar {
+    width: 32px;
+    height: 32px;
+  }
+  .comment-input {
+    font-size: 13px;
+  }
+  .comment-item {
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .comment-item .comment-avatar {
+    width: 32px;
+    height: 32px;
+  }
+  .comment-author {
+    font-size: 12px;
+  }
+  .comment-text {
+    font-size: 13px;
+    margin-bottom: 6px;
+  }
+
+  /* === ページヘッダー === */
+  .page-header {
+    margin: 0 12px 16px;
+    padding-bottom: 12px;
+  }
+  .page-header-icon {
+    font-size: 24px;
+  }
+  .page-header h2 {
+    font-size: 17px;
+  }
+
+  /* === チャンネルページ === */
   .channel-banner {
     height: 100px;
     border-radius: 0;
-    margin: 0 -8px 12px;
   }
-
   .channel-page-info {
+    padding: 0 12px 16px;
     flex-wrap: wrap;
-    gap: 12px;
+    gap: 10px;
   }
-
   .channel-page-avatar {
     width: 56px;
     height: 56px;
   }
-
   .channel-page-meta h2 {
-    font-size: 18px;
+    font-size: 17px;
+  }
+  .channel-page-meta p {
+    font-size: 12px;
+  }
+  .channel-page-videos {
+    padding: 0;
   }
 
-  /* 空状態 */
+  /* === 空状態 === */
   .empty-state {
-    padding: 60px 20px;
+    padding: 60px 24px;
   }
   .empty-state-icon {
-    font-size: 60px;
+    font-size: 56px;
   }
   .empty-state-text {
     font-size: 14px;
   }
 
-  /* アップロードモーダル */
+  /* === アップロードモーダル === */
+  .upload-page {
+    align-items: stretch;
+  }
   .upload-container {
     width: 100%;
-    max-width: 100vw;
-    max-height: 100vh;
-    height: 100vh;
+    max-width: 100%;
+    max-height: 100%;
+    height: 100%;
     border-radius: 0;
+    overflow-y: auto;
   }
-
-  .upload-form-layout {
-    flex-direction: column;
+  .upload-header {
+    padding: 12px 16px;
+    position: sticky;
+    top: 0;
+    background: #282828;
+    z-index: 10;
   }
-
-  .upload-form-right {
-    width: 100%;
+  .upload-header h2 {
+    font-size: 17px;
   }
-
+  .upload-step {
+    padding: 16px;
+  }
   .upload-dropzone {
-    padding: 40px 20px;
+    padding: 40px 16px;
   }
-
   .upload-dropzone-icon {
     font-size: 48px;
   }
-
+  .upload-dropzone-text {
+    font-size: 14px;
+  }
+  .upload-file-btn {
+    padding: 10px 20px;
+    font-size: 13px;
+  }
+  .upload-form-layout {
+    flex-direction: column;
+    gap: 16px;
+  }
+  .upload-form-right {
+    width: 100%;
+    order: -1;
+  }
+  .upload-text-input,
+  .upload-textarea,
+  .upload-select {
+    font-size: 14px;
+    padding: 10px;
+  }
+  .upload-label {
+    font-size: 13px;
+  }
   .visibility-option {
     padding: 10px;
+    gap: 10px;
+  }
+  .visibility-option .material-icons {
+    font-size: 20px;
+  }
+  .visibility-option strong {
+    font-size: 13px;
+  }
+  .visibility-option p {
+    font-size: 11px;
+  }
+  .upload-actions {
+    padding: 16px 0 0;
+    margin-top: 16px;
+    position: sticky;
+    bottom: 0;
+    background: #282828;
+    padding-bottom: 16px;
+  }
+  .upload-cancel-btn,
+  .upload-submit-btn {
+    padding: 10px 20px;
+    font-size: 13px;
+  }
+
+  /* 関連動画（スマホでは非表示済み @1200px） */
+  .watch-secondary {
+    display: none;
   }
 }
 
 /* 超小型スマホ */
 @media (max-width: 360px) {
+  .header {
+    padding: 0 4px;
+  }
   .logo-text {
-    font-size: 16px;
+    font-size: 15px;
+  }
+  .logo-icon {
+    font-size: 24px;
+  }
+  .icon-btn {
+    width: 36px;
+    height: 36px;
+  }
+  .bottom-nav {
+    height: 50px;
   }
   .bottom-nav-item {
     font-size: 9px;
-    min-width: 50px;
+    min-width: 48px;
   }
   .bottom-nav-item .material-icons {
     font-size: 20px;
+  }
+  .watch-title {
+    font-size: 14px;
+  }
+  .action-btn {
+    padding: 6px 10px;
+    font-size: 11px;
   }
 }
