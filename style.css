@@ -1488,7 +1488,7 @@ button {
   /* === コンテンツ === */
   .content {
     margin-left: 0;
-    padding: 0 0 64px;
+    padding: 8px 0 64px;
   }
 
   /* === チップ（モバイルでは非表示） === */
@@ -1500,9 +1500,10 @@ button {
   .video-grid {
     grid-template-columns: 1fr;
     gap: 0;
+    padding-top: 4px;
   }
   .video-card {
-    padding-bottom: 12px;
+    padding-bottom: 16px;
   }
   .video-card:hover {
     transform: none;
